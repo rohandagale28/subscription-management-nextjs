@@ -1,14 +1,9 @@
-import { Roboto } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import CustomThemeProvider from "./theme-provider";
 import "./globals.css";
 import SessionWrapper from './component/SessionWrapper';
 
-const roboto = Roboto({
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-})
+const inter = Inter({ subsets: ['latin'] })
 
 interface MetadataProps {
   title: string;
@@ -26,7 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
-        <link rel="stylesheet" {...roboto} />
+        <link rel="stylesheet" {...inter} />
       </head>
       <body>
         <SessionWrapper>

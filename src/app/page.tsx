@@ -4,16 +4,16 @@ import HomeScreen from "./home/page";
 import { useEffect } from "react"
 import { ThemeToggler } from "./component/Theme/theme-toggler";
 import Image from "next/image";
-import BrandLogo from "../assets/icons/scription-logo.png"
+import BrandLogo from "../../public/assets/icons/scription-logo.png"
 import { useRouter } from "next/navigation";
 
 export default function App() {
   const { data: session, status } = useSession();
-  const router = useRouter()
 
-  if (session) {
-    router.push("/dashboard")
-  }
+  // if (session) {
+  //   router.push("/dashboard")
+  // }
+  
 
   useEffect(() => { }, [session])
   return (
@@ -21,7 +21,7 @@ export default function App() {
       <nav className=" w-full absolute top-0 left-0">
         <div className=" h-20 flex flex-row items-center justify-between px-16">
           <div className="flex flex-row gap-2 items-center justify-between">
-            <div><Image src={BrandLogo} height={30} width={30} alt="scription logo" /></div>
+            <div><Image src={BrandLogo} height={26} width={26} alt="scription logo" /></div>
             <p>Scription</p>
           </div>
           <div>
@@ -37,6 +37,7 @@ export default function App() {
         </> :
         <>
           <HomeScreen />
+
         </>}
     </div>
   );

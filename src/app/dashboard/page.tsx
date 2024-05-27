@@ -2,14 +2,15 @@
 import React from 'react'
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { getSession } from '@/lib/lib';
 
 
 const DashboardPage: React.FC = () => {
     const { data: session, status } = useSession()
+    const manulSession = getSession()
     const router = useRouter()
 
-    if (status === "unauthenticated") {
+    if (!manulSession) {
         router.push("/login")
         return (
             <>
@@ -18,10 +19,11 @@ const DashboardPage: React.FC = () => {
         )
     }
 
+    
+
     return (
         <div>
-            <h1>Dashboard</h1>
-            <p>Welcome {session?.user?.name}</p>
+
         </div>
     )
 }

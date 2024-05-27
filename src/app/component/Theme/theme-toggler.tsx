@@ -2,9 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
 import React from 'react';
-import lightThemeIcon from '../../../assets/icons/light-mode-icon.svg';
-import darkThemeIcon from '../../../assets/icons/dark-mode-icon.svg';
-import Image from 'next/image';
+import { DarkModeIcon, LightModeIcon } from '@/components/svgRender';
 
 export const ThemeToggler = () => {
     const { setTheme, theme } = useTheme();
@@ -15,9 +13,13 @@ export const ThemeToggler = () => {
 
     return (
         <Button onClick={toggleTheme} variant="link" className='hover:bg-muted px-2'>
-            <div>
-                <Image height={18} width={18} src={theme === "light" ? darkThemeIcon : lightThemeIcon} alt={theme === "light" ? "Dark mode" : "Light mode"} />
+            <div className='w-4 h-4'>
+                {theme === "light" ? <>
+                    <LightModeIcon />
+                </> : <>
+                    <DarkModeIcon />
+                </>}
             </div>
-        </Button>
+        </Button >
     );
 };
