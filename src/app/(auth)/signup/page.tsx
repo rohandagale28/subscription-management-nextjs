@@ -58,8 +58,8 @@ const SignUpPage = () => {
                 <BackButton href="/" variant='link' className="flex flex-row gap-1 pt-6 align-center justify-center">
                     <div className='w-[18px] h-[18px]'>
                         <svg xmlns="http://www.w3.org/2000/svg" className="ionicon" viewBox="0 0 512 512">
-                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="48" d="M328 112L184 256l144 144" />
+                            <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                strokeWidth="48" d="M328 112L184 256l144 144" />
                         </svg>
                     </div>
                     <div className='pt-[2px]'>
@@ -68,11 +68,6 @@ const SignUpPage = () => {
                 </BackButton>
                 <div className='flex h-auto p-8 flex-col items-center justify-center w-full position-relative box-border'>
                     <form className='h-auto flex flex-col items-center justify-center rounded-md gap-y-0 w-full position-relative box-border' onSubmit={handleSubmit}>
-                        {/* <div className='w-[18rem]'>
-                            <Label>Username</Label>
-                            <InputDemo type="text" placeholder="example@gmail.com" value={formData.email} onChange={handleChange} name="email" autoFocus />
-                            <p className='text-xs py-[6px] px-1 text-destructive min-h-5'>{errors.email}</p>
-                        </div> */}
                         <div className='w-[18rem]'>
                             <Label>Email</Label>
                             <InputDemo type="email" placeholder="example@gmail.com" value={formData.email} onChange={handleChange} name="email" />

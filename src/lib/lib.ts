@@ -9,7 +9,7 @@ interface FormData {
   password: string;
 }
 
-const secretKey = "secret";
+const secretKey = "rohanworkspace";
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any) {
@@ -24,16 +24,14 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function login(formData: FormData) {
-  //   const reponse = await axios.post("/api/auth", formData);
-  //   console.log("response from backend", reponse);
   const user = { formData };
   const expires = new Date(Date.now() + 10 * 10000);
   const session = await encrypt({ user, expires });
   cookies().set("session", session, { expires, httpOnly: true });
 }
 
-export async function getSession() {
-  const session = cookies().get("session")?.value;
+export async function getSession() {   //check cookies while at login page
+  const session = cookies().get("token")?.value;
   if (!session) return null;
-  return await decrypt(session);    
+  return await decrypt(session);
 }

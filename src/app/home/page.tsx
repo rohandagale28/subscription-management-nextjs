@@ -18,7 +18,7 @@ export default function HomeScreen() {
                         Login
                     </Button>
                 </Link>
-                <Link href="/register">
+                <Link href="/signup">
                     <Button className="w-20">
                         Register
                     </Button>

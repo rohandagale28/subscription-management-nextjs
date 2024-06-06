@@ -10,11 +10,6 @@ import { useRouter } from "next/navigation";
 export default function App() {
   const { data: session, status } = useSession();
 
-  // if (session) {
-  //   router.push("/dashboard")
-  // }
-  
-
   useEffect(() => { }, [session])
   return (
     <div className="flex min-h-screen flex-col items-center justify-between box-border">
