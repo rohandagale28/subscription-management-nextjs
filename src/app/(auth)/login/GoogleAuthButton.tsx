@@ -14,7 +14,6 @@ export function GoogleAuth() {
         signIn("google");
     };
 
-
     return (
         <Button
             disabled={status === "loading"}

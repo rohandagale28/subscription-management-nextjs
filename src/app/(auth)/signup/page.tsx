@@ -5,12 +5,12 @@ import { Button } from '@/components/ui/button';
 import { GithubAuth } from '../login/GithubAuthButton'
 import { Label } from "@/components/ui/label"
 import { Card } from '@/components/ui/card';
-import { isValidEmail } from '@/lib/regex';
 import { GoogleAuth } from '../login/GoogleAuthButton';
 import { BackButton } from '../../component/auth/back-button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { validateEmail } from '@/lib/lib';
 
 const SignUpPage = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -35,7 +35,7 @@ const SignUpPage = () => {
         try {
             e.preventDefault();
 
-            const emailError = !formData.email.trim() || !isValidEmail(formData.email) ? 'Please enter a valid email' : '';
+            const emailError = !formData.email.trim() || !validateEmail(formData.email) ? 'Please enter a valid email' : '';
             const passwordError = !formData.password.trim() ? 'Please enter your password' : '';
 
             setErrors({ email: emailError, password: passwordError });

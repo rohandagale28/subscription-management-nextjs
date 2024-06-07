@@ -8,7 +8,7 @@ import { Logout, ProfileIcon } from '@/app/component/Next-Icon-Component/Icons';
 
 const DropDownProfiler = () => {
     const { data: session } = useSession();
-
+    console.log(session)
     const handleSignOut = () => {
         signOut();
     };
@@ -22,7 +22,7 @@ const DropDownProfiler = () => {
                             <div>
                                 <Image src={session?.user?.image} alt={session?.user?.name} height={20} width={20} className='rounded-full' />
                             </div>
-                            <div className='md:hidden lg:block sm:hidden'>
+                            <div className=''>
                                 <p className='text-sm min-w-full'>{session?.user?.name}</p>
                             </div>
                             <div className='w-4 h-4'>

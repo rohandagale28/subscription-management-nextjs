@@ -1,9 +1,11 @@
-import { Inter, Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import CustomThemeProvider from "./theme-provider";
 import "./globals.css";
 import SessionWrapper from './component/SessionWrapper';
+import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ['latin'] })
+
+const inter = Inter({ subsets: ['latin'] });
 
 interface MetadataProps {
   title: string;
@@ -21,14 +23,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
-        <link rel="stylesheet" {...inter} />
+        {/* <link rel="stylesheet" href={inter.href} /> */}
       </head>
       <body>
-        <SessionWrapper>
-          <CustomThemeProvider>
+        <CustomThemeProvider>
+          <SessionWrapper>
             {children}
-          </CustomThemeProvider>
-        </SessionWrapper>
+            <Toaster />
+          </SessionWrapper>
+        </CustomThemeProvider>
       </body>
     </html>
   );

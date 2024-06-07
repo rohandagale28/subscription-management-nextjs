@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/mongoose";
+import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/model/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
@@ -8,35 +8,48 @@ connectDB();
 
 export async function POST(request: NextRequest) {
   try {
+    // Parse the request body
     const { email, password } = await request.json();
-    console.log({ email, password });
+    console.log({ email, password })
 
+    // Fetch user by email
     const user = await User.findOne({ email: email });
     if (!user) {
-      return NextResponse.json({ message: "user not found" }, { status: 404 });
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
-    console.log("user exist");
 
+    // Validate password
     const passwordValidation = await bcryptjs.compare(password, user.password);
     if (!passwordValidation) {
-      return NextResponse.json({ message: "Check your credential" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
+
+    // Prepare token data
     const tokenData = {
       id: user._id,
       email: user.email,
     };
 
-    const token = await jwt.sign(tokenData, process.env.NEXT_PUBLIC_JWT_SECRET!, { expiresIn: "1d" });
+    // Sign JWT token
+    const token = jwt.sign(tokenData, process.env.NEXT_PUBLIC_JWT_SECRET!, {
+      expiresIn: "1d",
+    });
+
+    // Prepare response with token in httpOnly cookie
     const response = NextResponse.json({
-      message: "logged in success",
+      message: "Login successful",
       success: true,
     });
 
     response.cookies.set("token", token, {
       httpOnly: true,
     });
+
     return response;
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 404 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

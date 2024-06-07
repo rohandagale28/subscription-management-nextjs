@@ -5,13 +5,15 @@ import { Button } from '@/components/ui/button';
 import { GithubAuth } from './GithubAuthButton';
 import { Label } from "@/components/ui/label";
 import { Card } from '@/components/ui/card';
-import { isValidEmail } from '@/lib/regex';
 import { GoogleAuth } from './GoogleAuthButton';
 import { BackButton } from '../../component/auth/back-button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { getSession } from '@/lib/lib';
+import { getSession, validateEmail } from '@/lib/lib';
 import axios from 'axios';
+import { useToast } from '@/components/ui/use-toast';
+import { ToastAction } from "@/components/ui/toast"
+
 
 interface FormData {
     email: string;
@@ -57,24 +59,24 @@ const LoginPage: React.FC = () => {
 
     const { status } = useSession();
     const router = useRouter();
-
-    useEffect(() => {
-        const checkSession = async () => {
-            const session = await getSession();
-            console.log('user alreayd exist')
-            if (session) {
-                router.push('/dashboard');
-            }
-        };
-        checkSession();
-    }, [router, status]);
+    const { toast } = useToast()
+    // useEffect(() => {
+    //     const checkSession = async () => {
+    //         const session = await getSession();
+    //         console.log('user alreayd exist')
+    //         if (session) {
+    //             router.push('/dashboard');
+    //         }
+    //     };
+    //     checkSession();
+    // }, [router, status]);
 
     const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
 
         if (name === "email") {
-            const emailError = !value.trim() || !isValidEmail(value) ? 'Please enter a valid email' : '';
+            const emailError = !value.trim() || !validateEmail(value) ? 'Please enter a valid email' : '';
             setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
         }
 
@@ -88,7 +90,7 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
 
         const { email, password } = formData;
-        const emailError = !email.trim() || !isValidEmail(email) ? 'Please enter a valid email' : '';
+        const emailError = !email.trim() || !validateEmail(email) ? 'Please enter a valid email' : '';
         const passwordError = password.trim().length < 6 ? 'Password must be 6 characters long' : '';
 
         setErrors({ email: emailError, password: passwordError });
@@ -96,11 +98,20 @@ const LoginPage: React.FC = () => {
         if (!emailError && !passwordError) {
             try {
                 const response = await axios.post('/api/user/login', formData);
+                console.log(response)
                 if (response.status === 200) {
                     router.push('/dashboard');
                 }
-            } catch (error) {
-                console.error("Login failed", error);
+            } catch (error: any) {
+                if (error.response.status === 404)
+                    toast({
+                        title: "User does not exist",
+                        description: "Please SignUp first",
+                        action: (
+                            <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+                        ),
+                    })
+                // router.push("/signup")
             }
         }
     }, [formData, router]);

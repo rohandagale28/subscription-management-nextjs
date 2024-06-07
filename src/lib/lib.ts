@@ -31,7 +31,12 @@ export async function login(formData: FormData) {
 }
 
 export async function getSession() {   //check cookies while at login page
-  const session = cookies().get("token")?.value;
+  const session = await cookies().get("next-auth.session-token")?.value;
   if (!session) return null;
   return await decrypt(session);
+}
+
+export async function validateEmail(email: string) {
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email);
 }
