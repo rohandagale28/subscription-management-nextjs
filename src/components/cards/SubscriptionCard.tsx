@@ -1,6 +1,9 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import React from "react";
 import Image from "next/image";
+import { VerticleIcon } from "../svgRender";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import DropDownProfiler from "./demo";
 
 interface SubCardProps {
     title: string;
@@ -16,7 +19,7 @@ const formatDate = (date: Date): string => {
 
 export const SubscriptionCard: React.FC<SubCardProps> = ({ title, icon, method, amount, date }) => {
     return (
-        <Card className="main-card w-full h-28 p-4 flex flex-col justify-between">
+        <Card className="main-card w-full h-28 p-4 flex flex-col justify-between relative">
             <CardTitle className="flex flex-row gap-4 pt-0 w-full">
                 <div>
                     <h3 className="capitalize">{title}</h3>
@@ -24,8 +27,8 @@ export const SubscriptionCard: React.FC<SubCardProps> = ({ title, icon, method, 
                 {/* <div>
                     <Image src={icon} height={18} width={18} alt={`${title} image`} />
                 </div> */}
-                <div>
-                    M
+                <div className="w-10">
+                    <DropDownProfiler />
                 </div>
             </CardTitle>
             <CardContent className="flex flex-row justify-between p-0">
@@ -38,6 +41,6 @@ export const SubscriptionCard: React.FC<SubCardProps> = ({ title, icon, method, 
                     <h6 className="text-xs">Starting: {formatDate(date)}</h6>
                 </div>
             </CardContent>
-        </Card>
+        </Card >
     );
 };

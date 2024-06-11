@@ -21,10 +21,7 @@ export async function connectDB() {
     });
 
     // Attempt to connect to MongoDB
-    await mongoose.connect(mongoUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(mongoUrl);
 
   } catch (error) {
     console.error("Connection to database failed:", error);

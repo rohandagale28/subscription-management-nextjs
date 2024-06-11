@@ -10,8 +10,9 @@ export function GoogleAuth() {
     const { status } = useSession();
     const { theme } = useTheme();
 
-    const handleSignIn = () => {
-        signIn("google");
+    const handleSignIn = async () => {
+        const res = await signIn("google")
+        console.log(res)
     };
 
     return (

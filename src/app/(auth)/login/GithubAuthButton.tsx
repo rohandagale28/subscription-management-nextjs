@@ -6,11 +6,12 @@ import { useTheme } from "next-themes";
 import { GitHubIconDark, GitHubIconLight } from "@/components/svgRender";
 
 export const GithubAuth = () => {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
   const { theme } = useTheme();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     signIn("github");
+    console.log(session, 'this is new session')
   };
 
   return (

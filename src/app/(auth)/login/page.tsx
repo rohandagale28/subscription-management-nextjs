@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from '@/components/ui/card';
 import { GoogleAuth } from './GoogleAuthButton';
 import { BackButton } from '../../component/auth/back-button';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { getSession, validateEmail } from '@/lib/lib';
 import axios from 'axios';
@@ -36,12 +36,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ formData, errors, onChange, onSub
     <form className='h-auto flex flex-col items-center justify-center rounded-md gap-y-0 w-full position-relative box-border transition-all' onSubmit={onSubmit}>
         <div className='w-[18rem]'>
             <Label>Email</Label>
-            <InputDemo type="email" placeholder="example@gmail.com" value={formData.email} onChange={onChange} name="email" autoFocus />
+            <InputDemo type="email" placeholder="example@gmail.com" value={formData.email} onChange={onChange} name="email" aria-label='email' autoFocus />
             <p className='text-xs py-[6px] px-1 text-destructive min-h-5'>{errors.email}</p>
         </div>
         <div className='w-[18rem]'>
             <Label className='py-[4px]'>Password</Label>
-            <InputDemo type="password" placeholder="••••••" value={formData.password} onChange={onChange} name="password" />
+            <InputDemo type="password" placeholder="••••••" value={formData.password} onChange={onChange} name="password" aria-label='password' />
             <div className='flex flex-row justify-between py-[6px]'>
                 <p className='text-xs px-1 text-destructive min-h-5'>{errors.password}</p>
                 <button className='text-xs text-muted-foreground hover:text-primary'>Forgot password?</button>
@@ -57,19 +57,8 @@ const LoginPage: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
     const [errors, setErrors] = useState<Errors>({ email: '', password: '' });
 
-    const { status } = useSession();
     const router = useRouter();
     const { toast } = useToast()
-    // useEffect(() => {
-    //     const checkSession = async () => {
-    //         const session = await getSession();
-    //         console.log('user alreayd exist')
-    //         if (session) {
-    //             router.push('/dashboard');
-    //         }
-    //     };
-    //     checkSession();
-    // }, [router, status]);
 
     const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -86,6 +75,58 @@ const LoginPage: React.FC = () => {
         }
     }, []);
 
+    // const handleSubmit = useCallback(async (e: FormEvent) => {
+    // e.preventDefault();
+
+    // const { email, password } = formData;
+    // const emailError = !email.trim() || !validateEmail(email) ? 'Please enter a valid email' : '';
+    // const passwordError = password.trim().length < 6 ? 'Password must be 6 characters long' : '';
+
+    // setErrors({ email: emailError, password: passwordError });
+
+    // if (!emailError && !passwordError) {
+    //     try {
+    //         const response = await axios.post('/api/user/login', formData);
+    //         console.log(response)
+    //         if (response.status === 200) {
+    //             toast({
+    //                 title: "Login successfull",
+    //                 description: "Go to dashboard",
+    //                 action: (
+    //                     <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+    //                 ),
+    //             })
+    //             setFormData({ email: "", password: "" })
+    //             router.push("/dashboard")
+    //         }
+    //     } catch (error: any) {
+    //         console.log(error.response.status)
+    //         if (error.response.status === 404) {
+    //             toast({
+    //                 title: "User does not exist",
+    //                 description: "Please SignUp first",
+    //                 action: (
+    //                     <ToastAction altText="Goto schedule to undo"><Button>Signup</Button></ToastAction>
+    //                 ),
+    //             })
+    //         } else {
+    //             toast({
+    //                 title: "Wrong password",
+    //                 description: "Please check your password",
+    //                 action: (
+    //                     <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
+    //                 ),
+    //             })
+    //         }
+
+    //     }
+    // }
+    //     await signIn('credentials', {
+    //         redirect: false,
+    //         email: formData.email,
+    //         password: formData.password,
+    //     });
+    // }, [formData, router]);
     const handleSubmit = useCallback(async (e: FormEvent) => {
         e.preventDefault();
 
@@ -96,26 +137,28 @@ const LoginPage: React.FC = () => {
         setErrors({ email: emailError, password: passwordError });
 
         if (!emailError && !passwordError) {
-            try {
-                const response = await axios.post('/api/user/login', formData);
-                console.log(response)
-                if (response.status === 200) {
-                    router.push('/dashboard');
-                }
-            } catch (error: any) {
-                if (error.response.status === 404)
-                    toast({
-                        title: "User does not exist",
-                        description: "Please SignUp first",
-                        action: (
-                            <ToastAction altText="Goto schedule to undo">Undo</ToastAction>
-                        ),
-                    })
-                // router.push("/signup")
+            const result = await signIn('credentials', {
+                redirect: false,
+                email: formData.email,
+                password: formData.password,
+            });
+            console.log(result)
+            if (result?.error) {
+                toast({
+                    title: "Login failed",
+                    description: result.error,
+                    action: <ToastAction altText="Retry">Retry</ToastAction>,
+                });
+            } else {
+                toast({
+                    title: "Login successful",
+                    description: "You have successfully logged in",
+                    action: <ToastAction altText="Go to dashboard">Go</ToastAction>,
+                });
+                router.push("/dashboard");
             }
         }
-    }, [formData, router]);
-
+    }, [formData, router, toast]);
     return (
         <div className='flex min-h-screen flex-col items-center justify-center w-full position-relative'>
             <Card title='welcome back' className='border-none bg-transparent shadow-none'>
@@ -140,7 +183,7 @@ const LoginPage: React.FC = () => {
                     </div>
                 </div>
                 <div className='py-2'>
-                    <BackButton href="/register" variant='link' className="flex flex-row gap-1 align-center justify-center w-full">
+                    <BackButton href="/signup" variant='link' className="flex flex-row gap-1 align-center justify-center w-full">
                         <div className='text-muted-foreground hover:text-primary text-xs'>Don&#39;t have an account?</div>
                     </BackButton>
                 </div>

@@ -4,12 +4,12 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { sendMail } from "@/utils/mailer";
 
+//Database connection
 connectDB();
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json();
-    console.log({ email, password });
 
     const userExists = await User.findOne({ email: email });
     if (userExists) {

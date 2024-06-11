@@ -4,7 +4,6 @@ import "./globals.css";
 import SessionWrapper from './component/SessionWrapper';
 import { Toaster } from "@/components/ui/toaster"
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 interface MetadataProps {
@@ -19,14 +18,13 @@ export const metadata: MetadataProps = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
-        {/* <link rel="stylesheet" href={inter.href} /> */}
       </head>
-      <body>
-        <CustomThemeProvider>
+      <body className={inter.className}>
+        <CustomThemeProvider >
           <SessionWrapper>
             {children}
             <Toaster />

@@ -10,7 +10,6 @@ export async function POST(request: NextRequest) {
   try {
     // Parse the request body
     const { email, password } = await request.json();
-    console.log({ email, password })
 
     // Fetch user by email
     const user = await User.findOne({ email: email });

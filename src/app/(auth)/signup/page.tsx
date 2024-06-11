@@ -18,11 +18,6 @@ const SignUpPage = () => {
     const { status } = useSession()
     const router = useRouter()
 
-    if (status === "authenticated") {
-        router.push("/dashboard")
-    }
-
-
     const handleChange = (e: { target: { value: string; name: string }; }) => {
         const { name, value } = e.target;
         setFormData({
@@ -45,7 +40,7 @@ const SignUpPage = () => {
             }
             const response = await axios.post('/api/user/signup', formData)
             console.log("signup scuccess")
-            console.log(response)
+
             router.push('/login')
         } catch (error) {
             console.log("signup failed")

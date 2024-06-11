@@ -5,13 +5,23 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
 import { Logout, ProfileIcon } from '@/app/component/Next-Icon-Component/Icons';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 const DropDownProfiler = () => {
     const { data: session } = useSession();
-    console.log(session)
-    const handleSignOut = () => {
+
+    const router = useRouter()
+    const handleSignOut = async () => {
+        try {
+            await axios.get("/api/user/logout")
+            router.push("/login")
+        } catch (error) {
+            console.log("error")
+        }
         signOut();
     };
+
 
     return (
         <DropdownMenu>
@@ -20,7 +30,7 @@ const DropDownProfiler = () => {
                     {session && (
                         <>
                             <div>
-                                <Image src={session?.user?.image} alt={session?.user?.name} height={20} width={20} className='rounded-full' />
+                                <Image src={session?.user?.image!} alt={session?.user?.name!} height={20} width={20} className='rounded-full' />
                             </div>
                             <div className=''>
                                 <p className='text-sm min-w-full'>{session?.user?.name}</p>

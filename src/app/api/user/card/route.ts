@@ -8,7 +8,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
     await connectDB()
 
     const { name, description, image, method, date, amount, userId } = await request.json();
-    console.log(userId)
+
     if (!userId) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
@@ -34,6 +34,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
         return NextResponse.json({ message: "card created successfully" }, { status: 201 });
     } catch (error) {
         console.error('Error saving card:', error);
-       return NextResponse.json({ message: "internal server error" }, { status: 500 });
+        return NextResponse.json({ message: "internal server error" }, { status: 500 });
     }
 }

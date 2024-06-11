@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import SideBar from './_sidebar/page'
 import MainDashboard from './_header/page'
-
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
@@ -15,10 +14,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
                     <MainDashboard />
                 </div>
                 <div className='pt-6'>
-                    {children}
+                    <Suspense fallback={<h1>Breaking the laws</h1>}>
+                        {children}
+                    </Suspense>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
