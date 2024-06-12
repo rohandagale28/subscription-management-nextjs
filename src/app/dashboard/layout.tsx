@@ -9,11 +9,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             <div className="flex flex-col md:w-[10rem] lg:w-[10rem] xl:w-[12rem]">
                 <SideBar />
             </div>
-            <div className='box-border'>
+            <div className='box-border w-full'>
                 <div className='w-full h-14'>
                     <MainDashboard />
                 </div>
-                <div className='pt-6'>
+                <div className='pt-6 w-full'>
                     <Suspense fallback={<h1>Breaking the laws</h1>}>
                         {children}
                     </Suspense>

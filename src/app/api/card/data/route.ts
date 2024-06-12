@@ -1,6 +1,5 @@
 import { connectDB } from "@/dbConfig/dbConfig";
 import Card from "@/model/card.model";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 connectDB()

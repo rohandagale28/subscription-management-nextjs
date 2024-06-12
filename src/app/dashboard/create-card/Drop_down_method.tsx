@@ -10,7 +10,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 
-export function SelectDemo({ value, onChange }: any) {
+export function SelectDemoMethod({ value, onChange }: any) {
     return (
         <Select value={value} onValueChange={onChange}>
             <SelectTrigger className="w-[180px]">
@@ -19,11 +19,11 @@ export function SelectDemo({ value, onChange }: any) {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Fruits</SelectLabel>
-                    <SelectItem value="netflix">Netflix</SelectItem>
-                    <SelectItem value="amazon">Amazon</SelectItem>
-                    <SelectItem value="github">github</SelectItem>
-                    <SelectItem value="jio">Jio cinema</SelectItem>
-                    <SelectItem value="apple">Apple Tv</SelectItem>
+                    <SelectItem value="recurring">Recurring</SelectItem>
+                    <SelectItem value="annually">Annually</SelectItem>
+                    <SelectItem value="onetime">One Time</SelectItem>
+                    {/* <SelectItem value="jio">Jio cinema</SelectItem>
+                    <SelectItem value="apple">Apple Tv</SelectItem> */}
                 </SelectGroup>
             </SelectContent>
         </Select>

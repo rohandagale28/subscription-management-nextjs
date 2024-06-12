@@ -25,7 +25,7 @@ const DashboardPage: React.FC = () => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const response = await axios.post('api/user/data', { userId: session?.user?.id });
+                const response = await axios.post('api/card/data', { userId: session?.user?.id });
                 console.log(response)// Added the generic type for the response
                 setUserData(response.data.data);
             } catch (error) {
@@ -44,15 +44,13 @@ const DashboardPage: React.FC = () => {
                 {userData && userData.map((item: any) => { // Removed data && check
                     return (
                         <React.Fragment key={item._id}>
-                            <SubscriptionCard title={item?.name} icon={item.image} method={item.method} amount={item.amount} date={new Date()} />
+                            <SubscriptionCard id={item._id} title={item?.name} icon={item.image} method={item.method} amount={item.amount} date={new Date()} />
                         </React.Fragment>
                     )
                 })}
-                {userData && userData.length > 0 && ( // Changed userData check to userData.length > 0
-                    <div onClick={() => { router.push("/dashboard/create-card") }}>
-                        <CreateNewCard />
-                    </div>
-                )}
+                <div onClick={() => { router.push("/dashboard/create-card") }}>
+                    <CreateNewCard />
+                </div>
             </div>
             <div className='secondary-panel' >
 
