@@ -2,7 +2,7 @@
 import { InputDemo } from '@/app/component/Input'
 import { Label } from '@radix-ui/react-label'
 import React, { useState, ChangeEvent, FormEvent } from 'react'
-import { SelectDemo } from './Drop_down'
+import { SelectDemo } from '../../../components/cards/subscription/DropDownSelect'
 import { SelectDemoMethod } from './Drop_down_method'
 import axios from 'axios'
 import { toast } from '@/components/ui/use-toast'

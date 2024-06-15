@@ -4,7 +4,7 @@ import React, { useRef } from 'react';
 import { InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    value: string;
+    value: string | number | null
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

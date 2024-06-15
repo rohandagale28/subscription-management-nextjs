@@ -1,27 +1,26 @@
 "use client"
-import { useSession } from 'next-auth/react'
 import React from 'react'
 import DropDownProfiler from './_DropdownProfile/dropdown-profiler'
-import { SearchIcon } from '@/app/component/Next-Icon-Component/Icons'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
 import { ThemeToggler } from '@/app/component/Theme/theme-toggler'
-import MenuButton from './_NavigationMenu/menu-button'
 import SideMenuNavigation from './_NavigationMenu/page'
 
 const SideBar = () => {
-    const { data: session } = useSession()
 
     return (
-        <div className='flex flex-col min-h-screen w-full  bg-secondary justify-start items-start px-2 border-r-[1px] px-2'>
-            <div className='py-4 flex flex-row justify-between items-center w-full'>
+        <div className='flex flex-col min-h-screen w-full bg-secondary justify-start items-start border-r-[1px] px-2'>
+            <div className='py-4 w-full'>
                 <DropDownProfiler />
             </div>
-            <div className='py-4 w-full'>
+            <div className='py-2 w-full flex-grow'>
                 <SideMenuNavigation />
             </div>
-            <div className=' flex self-end'>
+            <div className=' flex justify-end pb-4 pl-2'>
                 <ThemeToggler />
+            </div>
+            <div className=' flex w-full pb-2'>
+                <div className='text-[10px] text-center w-full'>
+                    @2024 subscription.com, inc
+                </div>
             </div>
         </div >
     )

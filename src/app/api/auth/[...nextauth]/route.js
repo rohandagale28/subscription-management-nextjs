@@ -1,4 +1,3 @@
-import axios from "axios";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
@@ -26,29 +25,26 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        try {
-          // Connect to the database
-          await connectDB();
+        await connectDB();
 
+        try {
           // Find the user by email
           const user = await User.findOne({ email: credentials.email });
           if (!user) {
-            throw new Error("No user found with this email");
+            throw new Error("Invalid Password");
           }
-
           // Validate the password
           const isPasswordValid = await bcryptjs.compare(
             credentials.password,
             user.password
           );
           if (!isPasswordValid) {
-            throw new Error("Invalid credentials");
+            throw new Error("Invalid Password");
           }
 
           return user;
         } catch (error) {
-          console.error("Error in authorize function:", error);
-          throw new Error("Invalid credentials");
+          throw new Error("user does not exist");
         }
       },
     }),
@@ -67,11 +63,12 @@ const handler = NextAuth({
 
         if (session.user) {
           const user = await User.findOne({ email: session.user.email });
-          console.log(user, "this is comit from user");
+
           if (user) {
             session.user.id = user?._id;
             return session;
           }
+
           const newUser = await User({
             email: session.user.email,
             name: session.user.name,
@@ -79,13 +76,15 @@ const handler = NextAuth({
             password: session.user.name,
             isVerified: true,
           });
+
           const res = await newUser.save();
           console.log(res, "this is coming from database");
         }
         session.user.id = res._id;
-        return token;
+        token.id = res._id;
+        return session;
       }
-      // return session;
+      return;
     },
   },
   pages: {

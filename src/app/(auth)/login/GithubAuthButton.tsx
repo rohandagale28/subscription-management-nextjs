@@ -1,17 +1,13 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { signIn, useSession } from "next-auth/react";
-import Image from "next/image";
-import { useTheme } from "next-themes";
-import { GitHubIconDark, GitHubIconLight } from "@/components/svgRender";
+import GithubIconDark from '../../../../public/assets/icons/github-logo-dark.svg'
 
 export const GithubAuth = () => {
-  const { data: session, status } = useSession();
-  const { theme } = useTheme();
+  const { status } = useSession();
 
   const handleSignIn = async () => {
-    signIn("github");
-    console.log(session, 'this is new session')
+    await signIn("github");
   };
 
   return (
@@ -20,11 +16,7 @@ export const GithubAuth = () => {
       className={`${status === "loading" ? "cursor-not-allowed" : "cursor-pointer"} w-full flex flex-row gap-2 justify-center align-center`}
       onClick={handleSignIn}>
       <div className="h-4 w-4">
-        {theme === "light" ? <>
-          <GitHubIconDark />
-        </> : <>
-          <GitHubIconLight />
-        </>}
+        <GithubIconDark />
       </div>
       <p>Github</p>
     </Button>

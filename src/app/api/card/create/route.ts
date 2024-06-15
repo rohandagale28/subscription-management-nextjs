@@ -7,22 +7,23 @@ export async function POST(request: NextRequest) {
     await connectDB();
 
     try {
-        const { name, description, image, method, date, amount, userId } = await request.json();
-        console.log({ name, description, image, method, date, amount, userId })
+        const { platform, description, image, method, date, amount, userId } = await request.json();
+        console.log({ platform, description, image, method, date, amount, userId })
         if (!userId) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
         // Check if user exists
         const user = await User.findById(userId);
+        console.log(user)
         if (!user) {
             return NextResponse.json({ message: "User not Exist" }, { status: 404 });
         }
 
         const newCard = new Card({
-            name: name,
+            name: platform,
             description: "no yet set",
-            image: "string for now",
+            image: platform,
             method: method,
             date: date || Date.now(), // Use provided date or current date
             amount: amount,

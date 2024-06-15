@@ -2,7 +2,6 @@
 import { SessionProvider, useSession } from "next-auth/react";
 import HomeScreen from "./landing/page";
 import { useEffect } from "react"
-import { ThemeToggler } from "./component/Theme/theme-toggler";
 import Image from "next/image";
 import BrandLogo from "../../public/assets/icons/scription-logo.png"
 import { useRouter } from "next/navigation";
@@ -21,9 +20,6 @@ export default function App() {
             <div className="flex flex-row gap-2 items-center justify-between">
               <div><Image src={BrandLogo} height={26} width={26} alt="scription logo" /></div>
               <p>Scription</p>
-            </div>
-            <div>
-              <ThemeToggler />
             </div>
           </div>
         </nav>
