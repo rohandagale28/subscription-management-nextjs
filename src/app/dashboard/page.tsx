@@ -7,23 +7,27 @@ import CreateCardDialog from '@/components/cards/subscription/CreateNewCard';
 import { ExpenditureCard } from '@/components/cards/main/ExpenditureCard';
 
 interface MenuItem {
-    id: number;
+    _id: string;
     name: string;
+    descripton: string;
     image: string;
     method: string;
     amount: number;
+    userId: string;
 }
 
 const DashboardPage: React.FC = () => {
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
     const [userData, setUserData] = useState<MenuItem[]>([]);
     const [monthlyExpenditure, setMonthlyExpenditure] = useState(0);
     const [annualExpenditure, setAnnualExpenditure] = useState(0);
     const [oneTimeExpenditure, setOneTimeExpenditure] = useState(0);
 
+    const id = session?.user?.id as string;
+
     const getData = async () => {
         try {
-            const response = await axios.post('api/card/data', { userId: session?.user?.id });
+            const response = await axios.get(`api/card/data?id=${id}`);
             setUserData(response.data.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -74,14 +78,14 @@ const DashboardPage: React.FC = () => {
                 <div className='text-sm tracking-tight'>Create subscription and get notified before it ends</div>
             </div>
             <div className='secondary-panel w-full grid gap-4 grid-rows-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 grid-auto-flow'>
-                <ExpenditureCard title="Overall Monthly Expenditure" icon={''} method={'Monthly'} amount={monthlyExpenditure} date={undefined} id={''} />
-                <ExpenditureCard title="Overall Annual Expenditure" icon={''} method={'Annually'} amount={annualExpenditure} date={undefined} id={''} />
-                <ExpenditureCard title="Overall OneTime Expenditure" icon={''} method={'OneTime'} amount={oneTimeExpenditure} date={undefined} id={''} />
+                <ExpenditureCard title="Overall Monthly Expenditure" icon={''} method={'Monthly'} amount={monthlyExpenditure} id={''} />
+                <ExpenditureCard title="Overall Annual Expenditure" icon={''} method={'Annually'} amount={annualExpenditure} id={''} />
+                <ExpenditureCard title="Overall OneTime Expenditure" icon={''} method={'OneTime'} amount={oneTimeExpenditure} id={''} />
             </div>
             <div className='primary-panel w-full grid gap-4 grid-rows-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-auto-flow'>
                 {userData.map((item) => (
-                    <React.Fragment key={item.id}>
-                        <SubscriptionCard id={item.id} title={item.name} icon={item.image} method={item.method} amount={item.amount} date={new Date()} getData={getData} />
+                    <React.Fragment key={item._id}>
+                        <SubscriptionCard id={item._id} title={item.name} icon={item.image} method={item.method} amount={item.amount} date={new Date()} getData={getData} />
                     </React.Fragment>
                 ))}
                 <div>

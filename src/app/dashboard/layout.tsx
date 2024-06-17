@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
-import SideBar from './_sidebar/page'
 import MainDashboard from './_header/page'
+import SideBar from '@/components/dashboard/sidebar/sidebar/SideBar'
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 

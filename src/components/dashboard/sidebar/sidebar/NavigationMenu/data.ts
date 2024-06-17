@@ -1,7 +1,7 @@
 import { HomeIcon } from "@/app/component/Next-Icon-Component/Icons";
-import DashboardIcon from "../../../../../public/assets/icons/grid.svg"
-import ActiveIcon from "../../../../../public/assets/icons/flash.svg"
-import DeactiveIcon from "../../../../../public/assets/icons/flash-off.svg"
+import DashboardIcon from "../../../../../../public/assets/icons/grid.svg"
+import ActiveIcon from "../../../../../../public/assets/icons/flash.svg"
+import DeactiveIcon from "../../../../../../public/assets/icons/flash-off.svg"
 
 
 const data = [

@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 connectDB()
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest, response: NextResponse) {
+    const { searchParams } = new URL(request.url)
+    const userId = searchParams.get('id')
 
-    const data = await request.json()
-    console.log(data, 'this is coming at backend')
-    if (!data) {
+    if (!userId) {
         return NextResponse.json({ message: 'userId not found' }, { status: 404 })
     }
     try {
-        const cards = await Card.find({ userId: data.userId })
+        const cards = await Card.find({ userId: userId })
         console.log(cards)
         return NextResponse.json({ message: "all cards are here", data: cards }, { status: 200 })
     } catch (error) {

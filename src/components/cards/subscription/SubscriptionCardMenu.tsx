@@ -4,11 +4,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import axios from 'axios';
 import { toast } from '../../ui/use-toast';
 import VerticalMenuIcon from '../../../../public/assets/icons/ellipsis-vertical.svg'
+import TrashIcon from '../../../../public/assets/icons/trash.svg'
 
-export const SubscriptionCardMenu = ({ id, getData }: { id: string, getData: () => void; }) => {
-   
+export const SubscriptionCardMenu = ({ id, getData }: { id: number, getData: () => void; }) => {
+
     const handleDelete = async () => {
-        const res = await axios.post("api/card/delete", { data: id })
+        const res = await axios.delete(`api/card/delete?id=${id}`)
         if (res.status === 200) {
             toast({
                 title: "Platform deleted successfully",
@@ -27,7 +28,12 @@ export const SubscriptionCardMenu = ({ id, getData }: { id: string, getData: () 
                     </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-20'>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <div className='h-4 w-4'>
+                            <TrashIcon />
+                        </div>
+                        Edit
+                    </DropdownMenuItem>
                     <DropdownMenuItem>Billing</DropdownMenuItem>
                     <DropdownMenuItem>Team</DropdownMenuItem>
                     <DropdownMenuItem className='hover:text-destructive-foreground' onClick={() => handleDelete()}>Delete</DropdownMenuItem>

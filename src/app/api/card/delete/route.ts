@@ -4,15 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 connectDB()
 
-export async function POST(request: NextRequest, response: NextResponse) {
-    const data = await request.json()
-    console.log(data, 'this is coming at backend')
+export async function DELETE(request: NextRequest, response: NextResponse) {
+    const { searchParams } = new URL(request.url)
+    const userId = searchParams.get('id')
 
-    if (!data) {
+    if (!userId) {
         return NextResponse.json({ message: 'userId not found' }, { status: 404 })
     }
     try {
-        const cards = await Card.findOneAndDelete({ id: data.id })
+        const cards = await Card.findByIdAndDelete({ _id: userId })
         return NextResponse.json({ message: "all cards are here" }, { status: 200 })
     } catch (error) {
         return NextResponse.json({ message: 'something went wrong' }, { status: 500 })

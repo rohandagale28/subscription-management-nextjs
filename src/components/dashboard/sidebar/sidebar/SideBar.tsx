@@ -1,8 +1,8 @@
 "use client"
 import React from 'react'
-import DropDownProfiler from './_DropdownProfile/dropdown-profiler'
+import DropDownProfiler from './DropdownProfile/DropDownProfiler'
 import { ThemeToggler } from '@/app/component/Theme/theme-toggler'
-import SideMenuNavigation from './_NavigationMenu/page'
+import SideMenuNavigation from './NavigationMenu/SideMenuNavigation'
 
 const SideBar = () => {
 
