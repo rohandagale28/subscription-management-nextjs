@@ -14,8 +14,8 @@ export default async function middleware(request: NextRequest) {
     if (!isPublicPath && !token) {
         return NextResponse.redirect(new URL('/login', request.nextUrl))
     }
-    
-    return NextResponse.rewrite(request.url);
+
+    return NextResponse.next()
 }
 
 export const config = {
