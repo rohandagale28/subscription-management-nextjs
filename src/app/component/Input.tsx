@@ -3,7 +3,6 @@ import React, { ChangeEvent, useRef } from 'react';
 import { InputHTMLAttributes } from 'react';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-    value: string | number | null;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
