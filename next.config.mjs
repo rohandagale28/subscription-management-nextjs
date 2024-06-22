@@ -5,6 +5,17 @@ const nextConfig = {
   },
 
   reactStrictMode: false,
+  trailingSlash: true,
+
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 
   webpack(config) {
     config.module.rules.push({
