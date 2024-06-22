@@ -5,7 +5,7 @@ export default async function middleware(request: NextRequest) {
 
     const isPublicPath = path === '/login' || path === '/signup' || path === '/'
 
-    const token = request.cookies.get('next-auth.session-token')?.value || request.cookies.get('token')?.value
+    const token = request.cookies.get('next-auth.session-token')?.value
 
     if (isPublicPath && token) {
         return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
@@ -14,6 +14,7 @@ export default async function middleware(request: NextRequest) {
     if (!isPublicPath && !token) {
         return NextResponse.redirect(new URL('/login', request.nextUrl))
     }
+    return NextResponse.next()
 }
 
 export const config = {
