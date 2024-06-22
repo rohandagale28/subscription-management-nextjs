@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
         }
 
         const newCard = new Card({
-            name: platform,
+            platform: platform,
             description: "no yet set",
             image: platform,
             method: method,

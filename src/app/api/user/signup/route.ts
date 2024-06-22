@@ -9,7 +9,7 @@ connectDB();
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, username } = await request.json();
 
     const userExists = await User.findOne({ email: email });
     if (userExists) {
@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
     const newUser = new User({
       email: email,
       password: hashedPassword,
+      username: username
     });
 
     const savedUser = await newUser.save();

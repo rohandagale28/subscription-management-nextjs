@@ -4,12 +4,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { signOut } from 'next-auth/react';
-import { Logout } from '@/app/component/Next-Icon-Component/Icons';
 import axios from 'axios';
-import NotificationIcon from '../../../../../../public/assets/icons/notifications.svg'
-import ProfileIcon from '../../../../../../public/assets/icons/user-profile.svg'
-import SettingIcon from '../../../../../../public/assets/icons/settings.svg'
+import NotificationIcon from '../../../../../../public/assets/icons/notifications-outline.svg'
+import ProfileIcon from '../../../../../../public/assets/icons/person-outline.svg'
+import SettingIcon from '../../../../../../public/assets/icons/settings-outline.svg'
 import DefaultUserIcon from '../../../../../../public/assets/icons/person-circle.svg'
+import LogoutIcon from '../../../../../../public/assets/icons/log-out-outline.svg'
 
 const DropDownProfiler = () => {
     const { data: session } = useSession();
@@ -51,7 +51,7 @@ const DropDownProfiler = () => {
                             </div>
                         </div>
                     ) :
-                        <div className='flex flex-row justify-between w-full items-center gap-2  py-[6px] px-2 h-8 bg-accent rounded-md cursor-pointer transition-all'></div>
+                        <div className='flex flex-row justify-between animate-pulse w-full items-center gap-2  py-[6px] px-2 h-8 bg-accent rounded-md cursor-pointer transition-all'></div>
                     }
                 </div >
             </DropdownMenuTrigger>
@@ -60,9 +60,8 @@ const DropDownProfiler = () => {
                     <div className='h-4 w-4'>
                         <ProfileIcon />
                     </div>
-                    Person
+                    Account
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem>Billing</DropdownMenuItem> */}
                 <DropdownMenuItem>
                     <div className='h-4 w-4'>
                         <NotificationIcon />
@@ -76,7 +75,11 @@ const DropDownProfiler = () => {
                     Setting
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}><Logout />Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut}>
+                    <div className='h-4 w-4'>
+                        <LogoutIcon />
+                    </div>
+                    Logout</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

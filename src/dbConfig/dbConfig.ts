@@ -8,11 +8,9 @@ export async function connectDB() {
   }
 
   try {
-    console.log("Connecting to MongoDB...");
-
     // Set up mongoose connection event listeners
     mongoose.connection.on("connected", () => {
-      console.log("MongoDB connected successfully");
+      console.log("MongoDB connected successfully"); 
     });
 
     mongoose.connection.on("error", (err) => {

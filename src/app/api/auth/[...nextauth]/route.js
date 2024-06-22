@@ -18,31 +18,59 @@ const handler = NextAuth({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENTID,
       clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENTSECRET,
     }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials || !credentials.email || !credentials.password) {
+          return null;
+        }
+        const userDB = await User.findOne({ email: credentials.email });
+
+        if (!userDB) {
+          throw new Error("User not found");
+        }
+        const isMatch = await bcryptjs.compare(
+          credentials.password,
+          userDB.password
+        );
+        if (userDB || isMatch) {
+          const { password, createdAt, _id, username, email } =
+            userDB.toObject();
+          return {
+            id: _id.toString(),
+            name: username,
+            email: email,
+            picture: "string",
+          };
+        }
+        return null;
+      },
+    }),
   ],
 
   secret: process.env.NEXTAUTH_SECRET,
-
   callbacks: {
-    async session({ session, token, user }) {
-      console.log(session);
-
-      const res = await User.findOne({ email: session.user.email });
-
-      if (!res) {
-        const user = new User({
-          email: session.user.email,
-          name: session.user.name,
-          image: session.user.image,
-          password: "random",
-        });
-        const userResponse = await user.save();
-        session.user.id = userResponse._id;
-        return session;
+    async jwt({ token, user }) {
+      console.warn(token, "THIS IS TOKEN");
+      console.log(user, "THIS IS USER");
+      if (user) {
+        token.id = user.id;
+        token.picture = user.image;
       }
-
-      session.user.id = res._id;
+      return token;
+    },
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.image = token.picture;
       return session;
     },
+  },
+  pages: {
+    signIn: "/auth/signin",
   },
 });
 

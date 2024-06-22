@@ -1,7 +1,7 @@
-import { connectDB } from "@/lib/mongoose";
 import User from "@/model/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import { getDataFromToken } from "@/lib/getDataFromToken";
+import { connectDB } from "@/dbConfig/dbConfig";
 
 connectDB();
 

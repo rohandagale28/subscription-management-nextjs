@@ -54,14 +54,14 @@ interface FormDataProps {
 function CreateForm({ setOpen, onCardCreated }: ProfileFormProps) {
     const { data: session } = useSession();
 
-    // @ts-ignore
-    const id: any = session?.user?.id;
+    const id: any = session?.user
+    const userId = id.id as string
 
     const [formData, setFormData] = React.useState<FormDataProps>({
         platform: "",
         method: "",
-        userId: id,
-        amount: null,
+        userId: userId,
+        amount: null
     });
 
     const handleSelectChange = (field: keyof typeof formData, value: string) => {

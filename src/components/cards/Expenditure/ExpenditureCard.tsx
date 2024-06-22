@@ -1,5 +1,5 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { formatNumberWithCommas } from "@/lib/utils";
+import { formatNumberWithComma } from "@/lib/utils";
 import React from "react";
 
 interface ExpenditureCard {
@@ -11,9 +11,6 @@ interface ExpenditureCard {
     id: string
 }
 
-const formatDate = (date: Date): string => {
-    return new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
-};
 
 export const ExpenditureCard: React.FC<ExpenditureCard> = ({ title, icon, method, amount, date, id }) => {
     const roundValue = Math.round(amount)
@@ -27,7 +24,7 @@ export const ExpenditureCard: React.FC<ExpenditureCard> = ({ title, icon, method
                 <div className="flex flex-col">
                     <h1 className="text-sm font-semibold text-accent-foreground">Total Spend:
                         <span className="text-lg text-secondary-foreground hover:scale-110 transform transition duration-1s">
-                            ₹ {formatNumberWithCommas(roundValue)}
+                            ₹ {formatNumberWithComma(roundValue)}
                         </span>
                     </h1>
                     {/* <h4 className="text-xs">Method: {method}</h4> */}

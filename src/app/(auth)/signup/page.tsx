@@ -13,7 +13,7 @@ import axios from 'axios';
 import { validateEmail } from '@/lib/lib';
 
 const SignUpPage = () => {
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ email: '', password: '', username: "" });
     const [errors, setErrors] = useState({ email: '', password: '' });
     const { status } = useSession()
     const router = useRouter()
@@ -39,7 +39,9 @@ const SignUpPage = () => {
                 console.log(formData);
             }
             const response = await axios.post('/api/user/signup', formData)
-            console.log("signup scuccess")
+            if (response.data) {
+                console.log("signup scuccess")
+            }
 
             router.push('/login')
         } catch (error) {
@@ -63,6 +65,11 @@ const SignUpPage = () => {
                 </BackButton>
                 <div className='flex h-auto p-8 flex-col items-center justify-center w-full position-relative box-border'>
                     <form className='h-auto flex flex-col items-center justify-center rounded-md gap-y-0 w-full position-relative box-border' onSubmit={handleSubmit}>
+                        <div className='w-[18rem]'>
+                            <Label>Username</Label>
+                            <InputDemo type="text" placeholder="" value={formData.username} onChange={handleChange} name="username" />
+                            <p className='text-xs py-[6px] px-1 text-destructive min-h-5'>{errors.email}</p>
+                        </div>
                         <div className='w-[18rem]'>
                             <Label>Email</Label>
                             <InputDemo type="email" placeholder="example@gmail.com" value={formData.email} onChange={handleChange} name="email" />

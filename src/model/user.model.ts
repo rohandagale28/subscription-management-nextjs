@@ -1,17 +1,22 @@
 import { Schema, Document, Model, model, models } from "mongoose";
 
 export interface UserType extends Document {
+  username: string;
   email: string;
   password: string;
   createdAt: Date;
-  verifyToken: string;
-  verifyTokenExpiry: Date;
+  verifyToken: string | undefined;
+  verifyTokenExpiry: Date | undefined;
   isVerified: boolean;
   forgotPasswordToken?: string;
   forgotPasswordTokenExpiry?: Date;
 }
 
 const UserSchema: Schema<UserType> = new Schema({
+  username: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: [true, "Email is required"],

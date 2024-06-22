@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
-import { encrypt } from './app/_lib/lib'
 
 export default async function middleware(request: NextRequest) {
     //Check if the route is protected

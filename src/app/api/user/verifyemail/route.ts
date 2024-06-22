@@ -1,4 +1,4 @@
-import { connectDB } from "@/lib/mongoose";
+import { connectDB } from "@/dbConfig/dbConfig";
 import User from "@/model/user.model";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: "user doesn't exist" }, { status: 400 });
     }
-    console.log(user);  
     user.isVerified = true;
     user.verifyToken = undefined;
     user.verifyTokenExpiry = undefined;

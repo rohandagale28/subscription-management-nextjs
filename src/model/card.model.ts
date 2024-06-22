@@ -3,16 +3,17 @@ import { UserType } from "./user.model";
 
 export interface CardType extends Document {
     userId: Types.ObjectId | UserType;
-    name: string;
+    platform: string;
     description: string;
     image: string;
     method: string;
     date: Date;
     amount: number;
+    isActive: boolean
 }
 
 const CardSchema: Schema<CardType> = new Schema({
-    name: {
+    platform: {
         type: String,
         required: true
     },
@@ -40,6 +41,10 @@ const CardSchema: Schema<CardType> = new Schema({
         type: String,
         ref: "User",
         required: true,
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
     }
 })
 

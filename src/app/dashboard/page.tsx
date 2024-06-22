@@ -1,29 +1,18 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSession } from "next-auth/react";
 import { SubscriptionCard } from '@/components/cards/subscription/SubscriptionCard';
 import axios from 'axios';
 import CreateCardDialog from '@/components/cards/subscription/CreateNewCard';
 import { ExpenditureCard } from '@/components/cards/main/ExpenditureCard';
-
-interface MenuItem {
-    _id: string;
-    name: string;
-    descripton: string;
-    image: string;
-    method: string;
-    amount: number;
-    userId: string;
-}
+import { CardType } from '@/model/card.model';
 
 const DashboardPage: React.FC = () => {
     const { data: session } = useSession();
-    const [userData, setUserData] = useState<MenuItem[]>([]);
-    const [monthlyExpenditure, setMonthlyExpenditure] = useState(0);
-    const [annualExpenditure, setAnnualExpenditure] = useState(0);
-    const [oneTimeExpenditure, setOneTimeExpenditure] = useState(0);
+    const [userData, setUserData] = useState<CardType[]>([]);
 
-    const id = session?.user?.id as string;
+    // @ts-ignore
+    const id: any = session?.user?.id;
 
     const getData = async () => {
         try {
@@ -41,35 +30,33 @@ const DashboardPage: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [session]);
 
-    useEffect(() => {
-        const calculateExpenditure = () => {
-            const totals = userData.reduce((acc, currentValue) => {
-                switch (currentValue.method.toLowerCase()) {
-                    case 'monthly':
-                        acc.monthly += currentValue.amount;
-                        acc.annual += currentValue.amount * 12;
-                        break;
-                    case 'annually':
-                        acc.annual += currentValue.amount;
-                        // acc.monthly += currentValue.amount / 12;
-                        break;
-                    case 'onetime':
-                        acc.oneTime += currentValue.amount;
-                        break;
-                    default:
-                        break;
-                }
-                return acc;
-            }, { monthly: 0, annual: 0, oneTime: 0 });
+    const { monthlyExpenditure, annualExpenditure, oneTimeExpenditure } = useMemo(() => {
+        const totals = userData.reduce((acc, item) => {
+            switch (item.method.toLowerCase()) {
+                case 'monthly':
+                    acc.monthly += item.amount;
+                    acc.annual += item.amount * 12;
+                    break;
+                case 'annually':
+                    acc.annual += item.amount;
+                    break;
+                case 'onetime':
+                    acc.oneTime += item.amount;
+                    break;
+                default:
+                    break;
+            }
+            return acc;
+        }, { monthly: 0, annual: 0, oneTime: 0 });
 
-            setMonthlyExpenditure(totals.monthly);
-            setAnnualExpenditure(totals.annual);
-            setOneTimeExpenditure(totals.oneTime);
+        return {
+            monthlyExpenditure: totals.monthly,
+            annualExpenditure: totals.annual,
+            oneTimeExpenditure: totals.oneTime,
         };
-        if (userData.length > 0) {
-            calculateExpenditure();
-        }
     }, [userData]);
+
+
 
     return (
         <div className="main-panel flex flex-col w-full h-auto px-8 gap-8">
@@ -80,12 +67,12 @@ const DashboardPage: React.FC = () => {
             <div className='secondary-panel w-full grid gap-4 grid-rows-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 grid-auto-flow'>
                 <ExpenditureCard title="Overall Monthly Expenditure" icon={''} method={'Monthly'} amount={monthlyExpenditure} id={''} />
                 <ExpenditureCard title="Overall Annual Expenditure" icon={''} method={'Annually'} amount={annualExpenditure} id={''} />
-                <ExpenditureCard title="Overall OneTime Expenditure" icon={''} method={'OneTime'} amount={oneTimeExpenditure} id={''} />
+                <ExpenditureCard title="Income" icon={''} method={'OneTime'} amount={oneTimeExpenditure} id={''} />
             </div>
             <div className='primary-panel w-full grid gap-4 grid-rows-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 grid-auto-flow'>
                 {userData.map((item) => (
-                    <React.Fragment key={item._id}>
-                        <SubscriptionCard id={item._id} title={item.name} icon={item.image} method={item.method} amount={item.amount} date={new Date()} getData={getData} />
+                    <React.Fragment key={item._id as string}>
+                        <SubscriptionCard id={item._id as string} platform={item.platform} icon={item.image} method={item.method} amount={item.amount} date={new Date()} getData={getData} />
                     </React.Fragment>
                 ))}
                 <div>
