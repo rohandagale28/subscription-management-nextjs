@@ -1,35 +1,29 @@
-import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
 export default async function middleware(request: NextRequest) {
-    //Check if the route is protected
-    // const protectedRoutes = ['/dashboard', '/login', 'signup']
-    // const currentPath = request.nextUrl.pathname
-    // const isProtectedRoute = protectedRoutes.includes(currentPath)
+    const path = request.nextUrl.pathname;
 
-    // if (isProtectedRoute) {
-    //     const cookie = cookies().get('token')?.value || cookies().get('next-auth.session-token')?.value
-    //     console.log(cookie, 'this is cookie')
-    //     const session = await encrypt(cookie)
-    //     console.log(session, 'this is session')
-    //     if (!session?.user) {
+    // Define public paths that don't require authentication
+    const isPublicPath = path === '/login' || path === '/signup' || path === '/';
 
-    //     }
-    const path = request.nextUrl.pathname
+    // Get the token from cookies
+    const token = request.cookies.get('next-auth.session-token')?.value || request.cookies.get('token')?.value;
 
-    const isPublicPath = path === '/login' || path === '/signup' || path === '/'
-
-    const token = request.cookies.get('next-auth.session-token')?.value || request.cookies.get('token')?.value
-
+    // If the user is trying to access a public path and they are authenticated, redirect to the dashboard
     if (isPublicPath && token) {
-        return NextResponse.redirect(new URL('/dashboard', request.nextUrl))
+        return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
     }
 
+    // If the user is trying to access a protected path and they are not authenticated, redirect to the login page
     if (!isPublicPath && !token) {
-        return NextResponse.redirect(new URL('/login', request.nextUrl))
+        return NextResponse.redirect(new URL('/login', request.nextUrl));
     }
+
+    // If none of the conditions match, allow the request to proceed
+    return NextResponse.next();
 }
 
+// Define the paths that the middleware should match
 export const config = {
     matcher: [
         '/',
@@ -37,5 +31,5 @@ export const config = {
         '/login',
         '/signup',
         '/dashboard'
-    ]
-}
+    ],
+};
