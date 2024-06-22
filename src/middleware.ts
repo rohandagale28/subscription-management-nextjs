@@ -7,8 +7,7 @@ export default async function middleware(request: NextRequest) {
     const isPublicPath = path === '/login' || path === '/signup' || path === '/';
 
     // Get the token from cookies
-    const token = request.cookies.get('next-auth.session-token')?.value || request.cookies.get('token')?.value;
-
+    const token = request.cookies.get('next-auth.session-token')?.value 
     // If the user is trying to access a public path and they are authenticated, redirect to the dashboard
     if (isPublicPath && token) {
         return NextResponse.redirect(new URL('/dashboard', request.nextUrl));
