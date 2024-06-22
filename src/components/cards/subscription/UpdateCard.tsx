@@ -75,7 +75,7 @@ function CreateForm({ setOpen, onCardCreated }: ProfileFormProps) {
         const { value } = event.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            amount: parseFloat(value) || null,
+            amount: parseFloat(value)
         }));
     };
 
