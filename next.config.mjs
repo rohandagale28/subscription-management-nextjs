@@ -5,8 +5,6 @@ const nextConfig = {
   },
 
   reactStrictMode: false,
-  trailingSlash: true,
-
 
   webpack(config) {
     config.module.rules.push({
