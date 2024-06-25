@@ -14,11 +14,11 @@ export async function POST(request: NextRequest) {
         }
 
         // Check if user exists
-        const user = await User.findById(userId);
-        console.log(user)
-        if (!user) {
-            return NextResponse.json({ message: "User not Exist" }, { status: 404 });
-        }
+        // const user = await User.findOne({ _id: userId });
+        // console.log(user)
+        // if (!user) {
+        //     return NextResponse.json({ message: "User not Exist" }, { status: 404 });
+        // }
 
         const newCard = new Card({
             platform: platform,
