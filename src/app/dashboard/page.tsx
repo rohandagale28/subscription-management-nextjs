@@ -61,7 +61,7 @@ const DashboardPage: React.FC = () => {
     return (
         <div className="main-panel flex flex-col w-full h-auto px-8 gap-8">
             <div>
-                <p className='font-semibold text-lg tracking-tight'>Track Your Expenditure</p>
+                <p className='font-semibold text-lg tracking-tight'>Track Your Expenditure This is production base deployment</p>
                 <div className='text-sm tracking-tight'>Create subscription and get notified before it ends</div>
             </div>
             <div className='secondary-panel w-full grid gap-4 grid-rows-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 grid-auto-flow'>
