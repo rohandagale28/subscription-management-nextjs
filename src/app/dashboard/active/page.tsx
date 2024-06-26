@@ -11,13 +11,12 @@ const DashboardPage: React.FC = () => {
     const { data: session } = useSession();
     const [userData, setUserData] = useState<CardType[]>([]);
 
-    console.log(session?.user)
     // @ts-ignore
     const id: any = session?.user?.id
 
     const getData = async () => {
         try {
-            const response = await axios.get(`api/card/data?id=${id}`);
+            const response = await axios.get(`/api/card/data?id=${id}&active=${true}`);
             setUserData(response.data.data);
         } catch (error) {
             console.error('Error fetching data:', error);

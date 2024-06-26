@@ -12,8 +12,9 @@ interface MenuButtonProps {
 
 const MenuButton: React.FC<MenuButtonProps> = ({ link, title, component }: MenuButtonProps): ReactElement => {
     const pathname = usePathname();
-    let isActive = link === "/dashboard" && pathname.startsWith("/dashboard") ? true : pathname.startsWith("/dashboard") && pathname.endsWith(link) ? true : false
-   
+    console.log(pathname)
+    let isActive = pathname.startsWith("/dashboard/") && pathname.endsWith(`${link}`) ? true : false 
+    console.log(isActive)
     return (
         <div className='w-full'>
             <Button variant="link" className={`flex ${isActive ? 'bg-accent hover:!bg-accent' : 'bg-transparent'} flex-row justify-start items-center gap-2 hover:bg-muted w-full rounded-md`} asChild>
