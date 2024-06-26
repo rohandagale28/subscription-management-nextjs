@@ -11,8 +11,9 @@ const DashboardPage: React.FC = () => {
     const { data: session } = useSession();
     const [userData, setUserData] = useState<CardType[]>([]);
 
+    console.log(session?.user)
     // @ts-ignore
-    const id: any = session?.user?.id;
+    const id: any = session?.user?.id
 
     const getData = async () => {
         try {

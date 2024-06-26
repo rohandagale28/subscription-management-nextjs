@@ -48,6 +48,8 @@ const CardSchema: Schema<CardType> = new Schema({
     }
 })
 
+CardSchema.index({ userId: 1 })
+
 const Card: Model<CardType> = models.Card || model<CardType>("Card", CardSchema)
 
 export default Card
