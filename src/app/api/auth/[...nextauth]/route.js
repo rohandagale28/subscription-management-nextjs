@@ -12,11 +12,11 @@ const handler = NextAuth({
   providers: [
     GithubProvider({
       clientId: process.env.NEXT_PUBLIC_GITHUB_CLIENTID,
-      clientSecret: process.env.NEXT_PUBLIC_GITHUB_CLIENTSECRET,
+      clientSecret: process.env.GITHUB_CLIENTSECRET,
     }),
     GoogleProvider({
       clientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENTID,
-      clientSecret: process.env.NEXT_PUBLIC_GOOGLE_CLIENTSECRET,
+      clientSecret: process.env.GOOGLE_CLIENTSECRET,
     }),
     CredentialsProvider({
       name: "credentials",

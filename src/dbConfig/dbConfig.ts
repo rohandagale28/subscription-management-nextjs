@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export async function connectDB() {
-  const mongoUrl = "mongodb+srv://workspacex28:fZCytgKpY4lMYbt2@cluster-subscription-da.rovymye.mongodb.net/?retryWrites=true&w=majority&appName=Cluster-subscription-dashboard"
+  const mongoUrl = process.env.MONGODB_URI!
 
   if (!mongoUrl) {
     throw new Error("Environment variable NEXT_PUBLIC_MONGO_URL is not defined");
