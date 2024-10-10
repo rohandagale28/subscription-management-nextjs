@@ -97,7 +97,7 @@ const LoginPage: React.FC = () => {
                     title: "Invalid Credential",
                     description: "Please try again",
                 });
-                setServerError(true)
+                setServerError(true) 
             } else if (res?.status === 200) {
                 toast({
                     title: "Login successful",
